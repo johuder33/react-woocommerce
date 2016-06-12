@@ -6,7 +6,7 @@ const dir = path.resolve(__dirname, 'dist');
 const config = {
 	entry: './src/index.jsx',
 	output: {
-		path: dir,
+		path: 'dist',
 		publicPath: '/',
 		filename: 'bundle.js'
 	},

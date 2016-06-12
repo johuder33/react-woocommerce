@@ -3,29 +3,33 @@
 import React from 'react';
 import {browserHistory} from 'react-router';
 
+import Home from './home.jsx';
+import Menu from './menu.jsx';
+import Footer from './footer.jsx';
+
 export default class Root extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             root: true
         };
-        this.redirectIfNecessary = this.redirectIfNecessary.bind(this);
     }
     componentWillReceiveProps(newProps) {
-        this.redirectIfNecessary(newProps);
+        //this.redirectIfNecessary(newProps);
     }
-    componentWillMount() {
-        this.redirectIfNecessary(this.props);
+    componentDidMount() {
+        //this.redirectIfNecessary(this.props);
     }
     render() {
         if (this.props.children == null) {
-            return <div/>;
+            return <Home/>;
         }
 
-        //return this.props.children;
         return (
             <div>
-                <h1>Hola</h1>
+                <Menu/>
+                {this.props.children}
+                <Footer/>
             </div>
         );
     }

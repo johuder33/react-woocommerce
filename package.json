@@ -4,7 +4,7 @@
   "description": "tienda",
   "main": "index.js",
   "scripts": {
-    "run": "webpack --progress --watch && npm run server",
+    "run": "webpack --progress --watch",
     "server": "babel-node server.js"
   },
   "keywords": [
@@ -15,8 +15,14 @@
   "author": "Juorder Gonzalez",
   "license": "ISC",
   "dependencies": {
+    "crypto": "0.0.3",
+    "crypto-browserify": "^3.11.0",
+    "crypto-js": "^3.1.6",
     "jquery": "^3.0.0",
+    "oauth-1.0a": "^1.0.1",
+    "oauth-signature": "^1.3.1",
     "react": "^15.1.0",
+    "react-bootstrap": "^0.29.5",
     "react-dom": "^15.1.0",
     "react-router": "^2.4.1"
   },
