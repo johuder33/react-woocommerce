@@ -1251,6 +1251,14 @@ label.custom-require {
 
   &.product-item-container-single {
     max-width: 440px;
+
+    .caption-product {
+      font-size: 24px;
+
+      p {
+        font-size: 24px;
+      }
+    }
   }
 
   .caption-product {
@@ -1359,7 +1367,7 @@ label.custom-require {
 .container-details {
   .title-product {
     margin: 0px 0px 10px;
-    padding: 0px 0px 10px;
+    padding: 0px 0px 25px;
     border-bottom: 2px solid #acacac;
     color: #acacac;
     font-size: 30px;
@@ -1368,6 +1376,8 @@ label.custom-require {
   .container-description {
     .in-stock-status {
       margin-bottom: 10px;
+      font-size: 20px;
+      color: #acacac;
 
       .stock-status {
         color: #00adef;
@@ -1382,6 +1392,48 @@ label.custom-require {
         font-weight: 300;
       }
     }
+
+    .features {
+      .subtitle {
+        font-size: 20px;
+        color: #acacac;
+        margin-bottom: 40px;
+      }
+
+      .attr-list{
+        h4 {
+          font-size: 20px;
+          color: #acacac;
+          padding: 0 35px;
+          text-transform: capitalize;
+        }
+
+        p {
+          color: #666666;
+          font-size: 26px;
+          padding: 20px 35px;
+          border: 2px solid #b2b2b2;
+          border-left-color: transparent;
+          border-right-color: transparent;
+        }
+      }
+    }
+  }
+}
+
+.leaving-up-space {
+  margin-top: 120px;
+}
+
+.badge-solid-container {
+  position: relative;
+
+  .badge-solid {
+    position: absolute;
+    background: #00ADEF;
+    color: #fff;
+    top: -10px;
+    padding: 2px 5px;
   }
 }
 

@@ -1,0 +1,8 @@
+RewriteEngine On
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR]
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
+RewriteRule ^ - [L]
+
+# Redirects to: http://127.0.0.1:8080/router/index.html
+# /router/ must be added
+RewriteRule ^ /solid/index.html [L]

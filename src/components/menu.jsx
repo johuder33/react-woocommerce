@@ -7,6 +7,10 @@ export default class Menu extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleSearch = this.handleSearch.bind(this);
+
+		this.state = {
+			cart: 0
+		}
 	}
 
 	handleSearch(e) {
@@ -30,6 +34,8 @@ export default class Menu extends React.Component {
 	}
 
 	render () {
+		const {cart} = this.state;
+
 		return (
 			<div className='container'>
 				<nav className='nav-menu clearfix'>
@@ -75,6 +81,13 @@ export default class Menu extends React.Component {
 							>
 								Contacto
 							</a>
+						</li>
+
+						<li>
+							<button className='btn btn-primary btn-xs badge-solid-container' type='button'>
+								<i className='glyphicon glyphicon-shopping-cart'></i>
+								<span className='badge badge-solid'>{cart}</span>
+							</button>
 						</li>
 
 						<li>

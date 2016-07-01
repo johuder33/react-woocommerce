@@ -21,14 +21,15 @@ export default class Root extends React.Component {
         //this.redirectIfNecessary(this.props);
     }
     render() {
+        let home;
         if (this.props.children == null) {
-            return <Home/>;
+            home = <Home/>;
         }
 
         return (
             <div>
                 <Menu/>
-                {this.props.children}
+                {this.props.children || home}
                 <Footer/>
             </div>
         );

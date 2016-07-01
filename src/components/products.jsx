@@ -81,11 +81,7 @@ export default class Products extends React.Component {
                         key={`product-${index}`}
                     >
                         <Product
-                            title={producto.name}
-                            price={producto.price}
-                            label='Ver Más'
-                            image={producto.images[0].src}
-                            url={`productos/${producto.id}`}
+                            product={producto}
                         />
                     </div>
                 );

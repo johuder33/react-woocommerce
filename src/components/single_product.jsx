@@ -15,7 +15,7 @@ export default class SingleProduct extends React.Component {
     }
 
     getProduct() {
-        const id = 87;
+        const id = this.props.params.id;
 
         Client.getProductById(`/products/${id}`, (product) => {
             console.log(product);
@@ -37,20 +37,15 @@ export default class SingleProduct extends React.Component {
 
         if (product) {
             const {in_stock, description, name, attributes} = product;
-            const stockLabel = in_stock ? 'Disponible' : 'No disponible';
+            const stockLabel = in_stock ? 'In Stock' : 'No disponible';
             const attrs = [];
-            attributes.forEach((attr) => {
+            attributes.forEach((attr, index) => {
                 if (attr.visible) {
                     attrs.push(
                         (
-                            <div>
+                            <div className='attr-list' key={`attr-${index}`}>
                                 <h4>{attr.name}</h4>
-                                {attr.options.map((option) => {
-                                    console.log(option,attr.options[option]);
-                                    return (
-                                        <p>{option}</p>
-                                    );
-                                })}
+                                <p>{attr.options.join(', ')}</p>
                             </div>
                         )
                     );
@@ -88,8 +83,8 @@ export default class SingleProduct extends React.Component {
                             </div>
 
                             {attrs && attrs.length > 0 && (
-                                <div className='features'>
-                                    <h2>Características</h2>
+                                <div className='features font-family'>
+                                    <h2 className='subtitle'>Características</h2>
                                     {attrs}
                                 </div>
                             )}
@@ -104,7 +99,7 @@ export default class SingleProduct extends React.Component {
         return (
             <div>
                 <Banner/>
-                <div className='container'>
+                <div className='container leaving-up-space'>
                     <div className='row'>
                         {item}
                     </div>

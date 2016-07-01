@@ -34,11 +34,6 @@ function renderRootComponent() {
                     onEnter={onPreLoggedIn}
                 >
                     <Route
-                        path='/single'
-                        component={singleProduct}
-                    />
-
-                    <Route
                         path='/productos'
                         component={Products}
                     />

@@ -8,8 +8,9 @@ export default class Product extends React.Component {
     }
 
     render() {
-        const {images, name, price} = this.props.product;
+        const {images, name, price, id} = this.props.product;
         const classCss = this.props.isSingle ? 'product-item-container product-item-container-single' : 'product-item-container';
+
         let attrs = {
             controls: false,
             indicators: false
@@ -20,7 +21,7 @@ export default class Product extends React.Component {
             </Carousel.Item>
         );
 
-        if (!this.props.isSingle) {
+        if (this.props.isSingle) {
             attrs.controls = true;
             attrs.indicators = true;
             carouselImages = images.map((img, index) => {
@@ -45,7 +46,7 @@ export default class Product extends React.Component {
                         {price}
                     </div>
                 </div>
-                <Controls label={this.props.label} hasFile={this.props.hasFile}/>
+                <Controls label={this.props.label} hasFile={this.props.hasFile} idProduct={id}/>
             </div>
         );
     }

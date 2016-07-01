@@ -255,6 +255,8 @@ label.custom-require .required { color: #ffbb00 !important; }
 /* NUEVOS */
 .product-item-container { border: 1px solid #e3e3e3; max-width: 270px; }
 .product-item-container.product-item-container-single { max-width: 440px; }
+.product-item-container.product-item-container-single .caption-product { font-size: 24px; }
+.product-item-container.product-item-container-single .caption-product p { font-size: 24px; }
 .product-item-container .caption-product { padding: 5px 10px; }
 .product-item-container .caption-product .title-product, .product-item-container .caption-product p { color: #5c5c5c; margin: 0; font-size: 18px; }
 .product-item-container .caption-product .price-product { color: #17b6f1; font-weight: 600; }
@@ -278,10 +280,18 @@ label.custom-require .required { color: #ffbb00 !important; }
 .list-products .row-product { margin-bottom: 15px; }
 .list-products .row-product:last-child { margin-bottom: 0; }
 
-.container-details .title-product { margin: 0px 0px 10px; padding: 0px 0px 10px; border-bottom: 2px solid #acacac; color: #acacac; font-size: 30px; }
-.container-details .container-description .in-stock-status { margin-bottom: 10px; }
+.container-details .title-product { margin: 0px 0px 10px; padding: 0px 0px 25px; border-bottom: 2px solid #acacac; color: #acacac; font-size: 30px; }
+.container-details .container-description .in-stock-status { margin-bottom: 10px; font-size: 20px; color: #acacac; }
 .container-details .container-description .in-stock-status .stock-status { color: #00adef; }
 .container-details .container-description .description p { color: #acacac; font-size: 16px; font-family: "Open Sans", sans-serif; font-weight: 300; }
+.container-details .container-description .features .subtitle { font-size: 20px; color: #acacac; margin-bottom: 40px; }
+.container-details .container-description .features .attr-list h4 { font-size: 20px; color: #acacac; padding: 0 35px; text-transform: capitalize; }
+.container-details .container-description .features .attr-list p { color: #666666; font-size: 26px; padding: 20px 35px; border: 2px solid #b2b2b2; border-left-color: transparent; border-right-color: transparent; }
+
+.leaving-up-space { margin-top: 120px; }
+
+.badge-solid-container { position: relative; }
+.badge-solid-container .badge-solid { position: absolute; background: #00ADEF; color: #fff; top: -10px; padding: 2px 5px; }
 
 /* NUEVOS */
 
