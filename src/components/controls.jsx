@@ -7,7 +7,7 @@ export default class Controls extends React.Component {
         super(props);
 
         this.goTo = this.goTo.bind(this);
-        this.addToCart = this.addToCart.bind(this);
+        this.handleCart = this.handleCart.bind(this);
     }
 
     goTo(e) {
@@ -16,8 +16,11 @@ export default class Controls extends React.Component {
         }
     }
 
-    addToCart(e, id) {
-        console.log('add cart', id);
+    handleCart(e) {
+        if (typeof this.props.onAddCart === 'function') {
+            const {product} = this.props;
+            this.props.onAddCart(e, product);
+        }
     }
 
     render() {
@@ -33,9 +36,7 @@ export default class Controls extends React.Component {
                 <div
                     className={`shopping-cart ${classCSS}`}
                     key='add-cart'
-                    onClick={(e) => {
-                        this.addToCart(e, this.props.idProduct);
-                    }}
+                    onClick={this.handleCart}
                 >
                     <i className='fa fa-shopping-cart fa-lg pointer'></i>
                 </div>
@@ -81,5 +82,6 @@ Controls.propTypes = {
     label: React.PropTypes.string,
     url: React.PropTypes.string,
     hasFile: React.PropTypes.bool,
-    idProduct: React.PropTypes.string
+    product: React.PropTypes.object,
+    onAddCart: React.PropTypes.func
 };

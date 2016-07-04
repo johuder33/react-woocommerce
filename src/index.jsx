@@ -11,6 +11,8 @@ import {Router, Route, IndexRedirect, Redirect, browserHistory} from 'react-rout
 import Root from './components/root.jsx';
 import Products from './components/products.jsx';
 import singleProduct from './components/single_product.jsx';
+import checkout from './components/checkout.jsx';
+import cart from './components/cart.jsx';
 
 const notFoundParams = {
     title: 'Página no encontrada',
@@ -41,6 +43,16 @@ function renderRootComponent() {
                     <Route
                         path='/productos/:id'
                         component={singleProduct}
+                    />
+
+                    <Route
+                        path='/checkout'
+                        component={checkout}
+                    />
+
+                    <Route
+                        path='/cart'
+                        component={cart}
                     />
                 </Route>
             </Router>

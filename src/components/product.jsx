@@ -8,7 +8,8 @@ export default class Product extends React.Component {
     }
 
     render() {
-        const {images, name, price, id} = this.props.product;
+        const {images, name, price} = this.props.product;
+        const {onAddCart} = this.props;
         const classCss = this.props.isSingle ? 'product-item-container product-item-container-single' : 'product-item-container';
 
         let attrs = {
@@ -46,7 +47,7 @@ export default class Product extends React.Component {
                         {price}
                     </div>
                 </div>
-                <Controls label={this.props.label} hasFile={this.props.hasFile} idProduct={id}/>
+                <Controls label={this.props.label} hasFile={this.props.hasFile} product={this.props.product} onAddCart={onAddCart}/>
             </div>
         );
     }
@@ -56,7 +57,8 @@ Product.propTypes = {
     product: React.PropTypes.object.isRequired,
     isSingle: React.PropTypes.bool,
     hasFile: React.PropTypes.bool,
-    label: React.PropTypes.string
+    label: React.PropTypes.string,
+    onAddCart: React.PropTypes.func
 };
 
 Product.defaultProps = {

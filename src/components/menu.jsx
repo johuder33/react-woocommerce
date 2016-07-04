@@ -2,15 +2,37 @@ import React from 'react';
 
 import * as Client from '../utils/client.jsx';
 import * as Utils from '../utils/utils.jsx';
+import EventStore from '../stores/eventStore.jsx';
 
 export default class Menu extends React.Component {
 	constructor(props) {
 		super(props);
+
+		this.updateCart = this.updateCart.bind(this);
 		this.handleSearch = this.handleSearch.bind(this);
 
 		this.state = {
-			cart: 0
+			cartSize: 0
 		}
+	}
+
+	updateCart() {
+		const cartSize = Utils.getSizeOfCart();
+		this.setState({
+			cartSize
+		});
+	}
+	
+	componentWillMount() {
+		EventStore.addUpdateCartListener(this.updateCart);
+	}
+
+	componentWillUnMount() {
+		EventStore.removeUpdateCartListener(this.updateCart);
+	}
+
+	componentDidMount() {
+		this.updateCart();
 	}
 
 	handleSearch(e) {
@@ -34,7 +56,7 @@ export default class Menu extends React.Component {
 	}
 
 	render () {
-		const {cart} = this.state;
+		const {cartSize} = this.state;
 
 		return (
 			<div className='container'>
@@ -84,9 +106,15 @@ export default class Menu extends React.Component {
 						</li>
 
 						<li>
-							<button className='btn btn-primary btn-xs badge-solid-container' type='button'>
+							<button
+								className='btn btn-primary btn-xs badge-solid-container'
+								type='button'
+								onClick={(e) => {
+									Utils.handleLink(e, '/cart');
+								}}
+							>
 								<i className='glyphicon glyphicon-shopping-cart'></i>
-								<span className='badge badge-solid'>{cart}</span>
+								<span className='badge badge-solid'>{cartSize}</span>
 							</button>
 						</li>
 

@@ -1,10 +1,12 @@
 // Copyright (c) 2016 ZBox, Spa. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
+import * as Actions from '../actions/actions.jsx';
 
 import Product from './product.jsx';
 
 import * as Client from '../utils/client.jsx';
+import * as Utils from '../utils/utils.jsx';
 
 export default class Products extends React.Component {
     constructor(props) {
@@ -15,6 +17,21 @@ export default class Products extends React.Component {
         this.state = {
             loading: true
         };
+    }
+
+    onAddCart(e, product) {
+        e.preventDefault();
+        const values = {
+            id: product.id,
+            cant: 1,
+            price: product.price,
+            name: product.name,
+            images: product.images
+        };
+
+        Utils.addToCart(values.id, values);
+
+        Actions.updateCart();
     }
 
     getProducts() {
@@ -73,6 +90,20 @@ export default class Products extends React.Component {
         let productsArr;
         const list_products = [];
 
+        if (this.state.loading) {
+            list_products.push(
+                (
+                    <div className='text-center leaving-up-space' key='loader-products'>
+                        <i className='fa fa-spinner fa-pulse fa-3x fa-fw'></i>
+                        <span className='center-block'>
+                            Cargando Productos...
+                        </span>
+                        <span className="sr-only">Cargando...</span>
+                    </div>
+                )
+            );
+        }
+
         if (products) {
             productsArr = products.map((producto, index) => {
                 return (
@@ -82,6 +113,8 @@ export default class Products extends React.Component {
                     >
                         <Product
                             product={producto}
+                            onAddCart={this.onAddCart}
+                            label={'Ver Más'}
                         />
                     </div>
                 );
