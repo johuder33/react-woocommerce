@@ -2,6 +2,8 @@ import React from 'react';
 import {Carousel, Item, Caption} from 'react-bootstrap';
 import Controls from './controls.jsx';
 
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
 export default class Product extends React.Component {
     constructor(props) {
         super(props);
@@ -18,24 +20,24 @@ export default class Product extends React.Component {
         };
         let carouselImages = (
             <Carousel.Item>
-                <img src={images[0].src} alt={images[0].alt} title={images[0].name} className='img-responsive'/>
+                <img src={images[0].src} alt={images[0].alt} title={images[0].name} className='img-responsive center-block'/>
             </Carousel.Item>
         );
 
-        if (this.props.isSingle) {
+        if (this.props.isSingle && images.length > 1) {
             attrs.controls = true;
             attrs.indicators = true;
             carouselImages = images.map((img, index) => {
                 return (
                     <Carousel.Item key={`image-${index}`}>
-                        <img src={img.src} alt={img.alt} title={img.name} className='img-responsive'/>
+                        <img src={img.src} alt={img.alt} title={img.name} className='img-responsive  center-block'/>
                     </Carousel.Item>
                 );
             });
         }
 
         return(
-            <div className={classCss}>
+            <div className={classCss} style={this.props.styleCss}>
                 <div>
                     <Carousel {...attrs}>
                         {carouselImages}
@@ -47,7 +49,7 @@ export default class Product extends React.Component {
                         {price}
                     </div>
                 </div>
-                <Controls label={this.props.label} hasFile={this.props.hasFile} product={this.props.product} onAddCart={onAddCart}/>
+                <Controls label={this.props.label} hasFile={this.props.hasFile} product={this.props.product} onAddCart={onAddCart} url={'/productos'}/>
             </div>
         );
     }
@@ -56,12 +58,11 @@ export default class Product extends React.Component {
 Product.propTypes = {
     product: React.PropTypes.object.isRequired,
     isSingle: React.PropTypes.bool,
-    hasFile: React.PropTypes.bool,
     label: React.PropTypes.string,
-    onAddCart: React.PropTypes.func
+    onAddCart: React.PropTypes.func,
+    iterator: React.PropTypes.number
 };
 
 Product.defaultProps = {
-    isSingle: false,
-    hasFile: false
+    isSingle: false
 };

@@ -16,6 +16,14 @@ export default class Cart extends React.Component {
         }
     }
 
+    checkout(e) {
+        Utils.handleLink(e, '/checkout');
+    }
+
+    keepBuy(e) {
+        Utils.handleLink(e, '/productos');
+    }
+
     handleDelete(e, id) {
         e.preventDefault();
 
@@ -155,12 +163,18 @@ export default class Cart extends React.Component {
                             </div>
                             <div className='footer-cart text-center'>
                                 <div className='col-xs-6'>
-                                    <button className='btn btn-primary'>
+                                    <button
+                                        className='btn btn-primary'
+                                        onClick={this.keepBuy}
+                                    >
                                         Seguir Comprando
                                     </button>
                                 </div>
                                 <div className='col-xs-6'>
-                                    <button className='btn btn-info'>
+                                    <button
+                                        className='btn btn-info'
+                                        onClick={this.checkout}
+                                    >
                                         Realizar Cotización
                                     </button>
                                 </div>

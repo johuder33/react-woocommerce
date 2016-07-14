@@ -7,16 +7,24 @@ import Product from './product.jsx';
 
 import * as Client from '../utils/client.jsx';
 import * as Utils from '../utils/utils.jsx';
+import Pagination from './common/pagination.jsx';
 
 export default class Products extends React.Component {
     constructor(props) {
         super(props);
 
         this.getProducts = this.getProducts.bind(this);
+        this.page = this.props.location.query.page || 1;
 
         this.state = {
-            loading: true
+            loading: true,
+            page: this.page
         };
+    }
+
+    handlePaginate(e, id) {
+        const path = id > 1 ? `/productos?page=${id}` : '/productos';
+        Utils.handleLink(e, path);
     }
 
     onAddCart(e, product) {
@@ -35,10 +43,18 @@ export default class Products extends React.Component {
     }
 
     getProducts() {
-       Client.getAllProducts('/products', (response, req) => {
+        const parameters = {
+            per_page: 16,
+            page: this.state.page
+        };
+
+        Client.getAllProducts('/products', (response, req) => {
+           const totalPages = req.getResponseHeader('X-WP-TotalPages');
+
            this.setState({
                products: response,
-               loading: false
+               loading: false,
+               totalPages
            });
 
            /*setTimeout(() => {
@@ -76,17 +92,30 @@ export default class Products extends React.Component {
                   console.log(error);
                });
            }, 3000);*/
-       }, (error) => {
+        }, (error) => {
            console.log('error', error);
-       });
+        }, parameters);
     }
 
     componentDidMount() {
         this.getProducts();
     }
 
+    componentWillReceiveProps(newProps) {
+        if (newProps.location.query.page !== this.props.location.query.page) {
+            const page = newProps.location.query.page ? parseInt(newProps.location.query.page, 10) : 1;
+
+            this.state = {
+                loading: true,
+                page: page
+            };
+
+            this.getProducts();
+        }
+    }
+
     render() {
-        const {products} = this.state;
+        const {products, totalPages} = this.state;
         let productsArr;
         const list_products = [];
 
@@ -104,8 +133,12 @@ export default class Products extends React.Component {
             );
         }
 
-        if (products) {
+        if (products && !this.state.loading) {
             productsArr = products.map((producto, index) => {
+                const delay = index ? `${(index / 2)}s` : `${index}s`;
+                const fadeIn = {
+                    transitionDelay: `${index * 4}s`
+                };
                 return (
                     <div
                         className='col-xs-3'
@@ -115,6 +148,7 @@ export default class Products extends React.Component {
                             product={producto}
                             onAddCart={this.onAddCart}
                             label={'Ver Más'}
+                            iterator={index}
                         />
                     </div>
                 );
@@ -136,6 +170,11 @@ export default class Products extends React.Component {
             <div>
                 <div className='container list-products'>
                     {list_products}
+                    <Pagination
+                        totalPages={totalPages}
+                        location={this.props.location}
+                        onClick={this.handlePaginate}
+                    />
                 </div>
             </div>
         );

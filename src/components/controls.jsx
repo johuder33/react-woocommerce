@@ -12,7 +12,7 @@ export default class Controls extends React.Component {
 
     goTo(e) {
         if (this.props.url) {
-            Utils.handleLink(e, this.props.url);
+            Utils.handleLink(e, `${this.props.url}/${this.props.product.id}`);
         }
     }
 
@@ -24,11 +24,13 @@ export default class Controls extends React.Component {
     }
 
     render() {
-        const classCSS = this.props.hasFile ? null : 'expand';
+        const metabox = this.props.product.metabox ? Object.keys(this.props.product.metabox): [];
+        const hasFile = metabox > 0 ? true : false;
+        const classCSS = hasFile ? null : 'expand';
         const attrs = {};
 
         if (!this.props.label) {
-            attrs.className = this.props.hasFile ? 'single-control half' : 'single-control';
+            attrs.className = hasFile ? 'single-control half' : 'single-control';
         }
 
         const buttons = [
@@ -43,15 +45,19 @@ export default class Controls extends React.Component {
             )
         ];
 
-        if (this.props.hasFile) {
+        if (hasFile) {
+            const {url, title} = this.props.product.metabox[metabox[0]];
             buttons.push(
                 (
-                    <div
+                    <a
+                        href={url}
+                        target='_blank'
                         className='download-file'
                         key='download-file'
+                        title={title}
                     >
                         <i className='fa fa-cloud-download fa-lg pointer'></i>
-                    </div>
+                    </a>
                 )
             );
         }
@@ -81,7 +87,6 @@ export default class Controls extends React.Component {
 Controls.propTypes = {
     label: React.PropTypes.string,
     url: React.PropTypes.string,
-    hasFile: React.PropTypes.bool,
     product: React.PropTypes.object,
     onAddCart: React.PropTypes.func
 };

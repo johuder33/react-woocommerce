@@ -1,11 +1,119 @@
 import React from 'react';
+import * as Client from '../utils/client.jsx';
 
 export default class Footer extends React.Component {
 	constructor(props) {
 		super(props);
+
+		this.sender = this.sender.bind(this);
+		this.sending = false;
+
+		this.state = {
+			error: null,
+			contact: null
+		};
+	}
+
+	componentDidMount() {
+		Client.getContact('/get_contact', (contact) => {
+			this.setState({
+				contact
+			});
+		}, (err) => {
+			this.setState({
+				error: err.message
+			});
+		});
+	}
+
+	sender(e) {
+		e.preventDefault();
+		const button = e.target;
+
+		if (this.sending) {
+			return null;
+		}
+
+		const emailPattern = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+		const message = this.refs.message.value.trim();
+		const email = this.refs.email.value.trim();
+		const person = this.refs.fullname.value.trim();
+
+		if (message === '' || person === '') {
+			return this.setState({
+				error: 'Faltan campos por llenar'
+			});
+		}
+
+		if (!emailPattern.test(email)) {
+			return this.setState({
+				error: `Su email : ${email}, no es válido verifiquelo por favor.`
+			});
+		}
+
+		this.sending = true;
+		button.disabled = true;
+		button.classList.add('disabled');
+		button.innerHTML = 'Enviando <i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>';
+
+		return Client.send('/send', (data) => {
+			console.log(data);
+			this.sending = false;
+			button.disabled = false;
+			button.innerHTML = 'Enviar';
+			button.classList.remove('disabled');
+			this.refs.message.value = '';
+			this.refs.fullname.value = '';
+			this.refs.email.value = '';
+
+			return this.setState({
+				error: data.message
+			});
+		}, (err) => {
+			this.sending = false;
+			button.disabled = false;
+			button.innerHTML = 'Enviar';
+			button.classList.remove('disabled');
+
+			return this.setState({
+				error: err.message
+			});
+		}, {
+			person,
+			message,
+			email
+		});
 	}
 
 	render() {
+		const {error, contact} = this.state;
+
+		if (!contact) {
+			return (
+				<div/>
+			);
+		}
+
+		const meta_key = contact.meta_box ? Object.keys(contact.meta_box) : null;
+		let tlf = null;
+
+		if (meta_key) {
+			tlf = contact.meta_box[meta_key.shift()];
+		}
+
+		const social_keys = Object.keys(contact.socials);
+
+		const iconsSocials = social_keys.map((key) => {
+			const url = contact.socials[key];
+			if(url && url.length > 0) {
+				return (
+					<a href={url} target='_blank' className='btn-circle'>
+						<i className={`fa fa-${key}`}></i>
+					</a>
+				);
+			}
+		});
+
 		return(
 			<footer className='container-fluid footer-block'>
 				<section className='row footer-section'>
@@ -21,35 +129,50 @@ export default class Footer extends React.Component {
 							<div className='col-xs-12 col-sm-12 col-md-5 col-lg-5'>
 								<section className='address'>
 									<h3 className='phone-number'>
-										<a href='tel:+8005480923'>
-											(800) 548-0923
+										<a href={tlf && `tel:+${tlf}`}>
+											{tlf}
 										</a>
 									</h3>
 									<div className='sociales'>
-										<a href='#!' className='btn-circle'>
-											<i className='fa fa-facebook'></i>
-										</a>
-
-										<a href='#!' className='btn-circle'>
-											<i className='fa fa-twitter'></i>
-										</a>
-
-										<a href='#!' className='btn-circle'>
-											<i className='fa fa-instagram'></i>
-										</a>
+										{iconsSocials}
 									</div>
-									<address className='address-info'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vitae, facere.</address>
+									<address className='address-info'>{contact.post_content}</address>
 								</section>
 							</div>
 
 							<div className='col-xs-12 col-sm-12 col-md-7 col-lg-7'>
 								<section className='form-block'>
+									{error}
 									<form action='' className='form-landscape'>
 										<div className='form-group'>
-											<input type='text' className='form-control field' placeholder='Nombre' name='nombre' />
-											<input type='text' className='form-control field' placeholder='E-mail' name='email' />
-											<textarea name='mensaje' className='form-control field' cols='30' rows='10' placeholder='Mensaje'></textarea>
-											<button className='btn btn-default btn-sm btn-form'>Enviar</button>
+											<input
+												type='text'
+												className='form-control field'
+												placeholder='Nombre'
+												name='nombre'
+												ref={'fullname'}
+											/>
+											<input
+												type='text'
+												className='form-control field'
+												placeholder='E-mail'
+												name='email'
+												ref={'email'}
+											/>
+											<textarea
+												name='mensaje'
+												className='form-control field'
+												cols='30'
+												rows='10'
+												placeholder='Mensaje'
+												ref={'message'}
+											></textarea>
+											<button
+												className='btn btn-default btn-sm btn-form'
+												onClick={this.sender}
+											>
+												Enviar Mensaje
+											</button>
 										</div>
 									</form>
 								</section>

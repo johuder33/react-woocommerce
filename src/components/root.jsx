@@ -6,6 +6,9 @@ import {browserHistory} from 'react-router';
 import Home from './home.jsx';
 import Menu from './menu.jsx';
 import Footer from './footer.jsx';
+import Brands from './brands.jsx';
+
+import * as Utils from '../utils/utils.jsx';
 
 export default class Root extends React.Component {
     constructor(props) {
@@ -14,11 +17,18 @@ export default class Root extends React.Component {
             root: true
         };
     }
-    componentWillReceiveProps(newProps) {
-        //this.redirectIfNecessary(newProps);
-    }
     componentDidMount() {
-        //this.redirectIfNecessary(this.props);
+        if (this.props.location) {
+            const hash = this.props.location.hash;
+            Utils.scrollAnimated(hash);
+        }
+    }
+
+    componentWillReceiveProps(newProps) {
+        const hash = newProps.location.hash;
+        if (hash !== this.props.location.hash) {
+            Utils.scrollAnimated(hash);
+        }
     }
     render() {
         let home;
@@ -30,6 +40,7 @@ export default class Root extends React.Component {
             <div>
                 <Menu/>
                 {this.props.children || home}
+                <Brands location={this.props.location}/>
                 <Footer/>
             </div>
         );

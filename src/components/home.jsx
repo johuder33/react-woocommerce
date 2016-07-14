@@ -2,11 +2,9 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 
-import Menu from './menu.jsx';
 import Banner from './banner.jsx';
 import AboutUsSection from './aboutus.jsx';
 import ServiceSection from './service.jsx';
-import Footer from './footer.jsx';
 
 export default class Home extends React.Component {
     constructor(props) {
@@ -14,7 +12,11 @@ export default class Home extends React.Component {
     }
 
     componentDidMount() {
-        const hola = 'hello world';
+        console.log('this.props',this.props.location);
+    }
+
+    componentWillReceiveProps(newProps) {
+        console.log(newProps);
     }
 
     render() {

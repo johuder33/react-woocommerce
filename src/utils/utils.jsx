@@ -1,5 +1,6 @@
 import {browserHistory} from 'react-router';
 const solidcart = 'solidcart';
+import $ from 'jquery';
 
 export function handleLink(e, path) {
     const ev = e;
@@ -86,4 +87,14 @@ export function getSizeOfCart() {
     const items = Object.keys(jsonCart);
 
     return items.length;
+}
+
+export function scrollAnimated(hash) {
+    const section = $(hash + '-section');
+
+    if (section.length > 0) {
+        $('html, body').stop().animate({
+            'scrollTop': section.offset().top
+        }, 900, 'swing');
+    }
 }

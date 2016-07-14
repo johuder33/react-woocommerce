@@ -1,62 +1,87 @@
 import React from 'react';
 
+import * as Client from '../utils/client.jsx';
+
 export default class ServiceSection extends React.Component {
 	constructor(props) {
 		super(props);
+
+		this.state = {
+			services: null,
+			service_content: null,
+			error: null
+		};
+	}
+
+	componentDidMount() {
+		Client.getDataFromServer('/servicio-content', (servicio_content) => {
+			if (servicio_content) {
+				Client.getDataFromServer('/services', (data) => {
+					this.setState({
+						services: data,
+						servicio_content: servicio_content[0]
+					});
+				}, () => {
+					this.setState({
+						servicio_content: servicio_content[0]
+					});
+				});
+			}
+		}, (err) => {
+			this.setState({
+				error: err
+			});
+		});
 	}
 
 	render() {
+		const {services, servicio_content} = this.state;
+
+		if (!services) {
+			return (
+				<div/>
+			);
+		}
+
+		const servicesArray = services.map((service, index) => {
+			const metabox = service.meta_box.constructor.name === 'Object' ? service.meta_box : null;
+			const instanceImage = metabox ? metabox.image_service : null;
+			const metaboxID = instanceImage ? Object.keys(instanceImage) : null;
+			const image = metaboxID ? instanceImage[metaboxID[0]] : null;
+
+			return (
+				<div
+					className='box-service'
+					key={`service-${index}`}
+				>
+					<figure className='clearfix column-service'>
+						{image && (
+							<img src={image.full_url} alt={image.alt || image.caption} title={image.title} className='img-responsive' />
+						)}
+						<span className='rotateHoverAnimation'></span>
+					</figure>
+
+					<article className='text-service'>
+						<h2>{service.title.rendered}</h2>
+						<div className='info-box text-center' dangerouslySetInnerHTML={{__html: service.content.rendered}}>
+						</div>
+					</article>
+				</div>
+			);
+		});
+
 		return (
 			<section className='servicios_block' id='servicios-section'>
 				<div className='row'>
 					<div className='col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center'>
-						<h1 className='title_company'>Servicios</h1>
-						<div className='text-box center-block'>
-							<p>Mi servicio</p>
+						<h1 className='title_company'>{servicio_content.title.rendered}</h1>
+						<div className='text-box center-block' dangerouslySetInnerHTML={{__html: servicio_content.content.rendered}}>
 						</div>
 					</div>
 				</div>
 
 				<div className='row text-center'>
-					<div className='box-service'>
-						<figure className='clearfix column-service'>
-							<img src='https://raw.githubusercontent.com/johuder33/idchile/master/wp-content/themes/idchile/assets/images/servicio1.png' alt='Servicios' title='Servicios' className='img-responsive' />
-							<span className='rotateHoverAnimation'></span>
-						</figure>
-
-						<article className='text-service'>
-							<h2>Servicio de Impresión</h2>
-							<div className='info-box text-center'>
-								<p>Encuentra información sobre viajes y paseos a lugares de interés, hospedajes, transporte.</p>
-							</div>
-						</article>
-					</div>
-
-					<div className='box-service'>
-						<figure className='clearfix column-service'>
-							<img src='https://raw.githubusercontent.com/johuder33/idchile/master/wp-content/themes/idchile/assets/images/servicio2.png' alt='Servicios' title='Servicios' className='img-responsive center-block' />
-							<span className='rotateHoverAnimation'></span>
-						</figure>
-						<article className='text-service'>
-							<h2>Personalizacion de ID</h2>
-							<div className='info-box text-center'>
-								<p>Encuentra información sobre viajes y paseos a lugares de interés, hospedajes, transporte.</p>
-							</div>
-						</article>
-					</div>
-
-					<div className='box-service'>
-						<figure className='clearfix column-service'>
-							<img src='https://raw.githubusercontent.com/johuder33/idchile/master/wp-content/themes/idchile/assets/images/servicio3.png' alt='Servicios' title='Servicios' className='img-responsive' />
-							<span className='rotateHoverAnimation'></span>
-						</figure>
-						<article className='text-service'>
-							<h2>Soporte Técnico</h2>
-							<div className='info-box text-center'>
-								<p>Encuentra información sobre viajes y paseos a lugares de interés, hospedajes, transporte.</p>
-							</div>
-						</article>
-					</div>
+					{servicesArray}
 				</div>
 			</section>
 		);

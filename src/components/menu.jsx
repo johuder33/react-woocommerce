@@ -10,10 +10,21 @@ export default class Menu extends React.Component {
 
 		this.updateCart = this.updateCart.bind(this);
 		this.handleSearch = this.handleSearch.bind(this);
+		this.goToContact = this.goToContact.bind(this);
 
 		this.state = {
 			cartSize: 0
 		}
+	}
+
+	goToContact(e) {
+		e.preventDefault();
+		const hash = '#contacto';
+		Utils.scrollAnimated(hash);
+	}
+
+	handleHome(e) {
+		Utils.handleLink(e, '/');
 	}
 
 	updateCart() {
@@ -61,78 +72,95 @@ export default class Menu extends React.Component {
 		return (
 			<div className='container'>
 				<nav className='nav-menu clearfix'>
-					<ul className='list-inline custom-inline'>
-						<li>
-							<a
-								className='permalink'
-								href='#nosotros'
-							>
-								Nosotros
-							</a>
-						</li>
-						<li>
-							<a
-								className='permalink'
-								href='#servicios'
-							>
-								Servicios
-							</a>
-						</li>
-						<li>
-							<a
-							    className='permalink'
-								onClick={(e) => {
-									Utils.handleLink(e, '/productos');
-								}}
-							>
-								Productos
-							</a>
-						</li>
-						<li>
-							<a
-								href='#marcas'
-							    className='permalink'
-							>
-								Marcas
-							</a>
-						</li>
-						<li>
-							<a
-								href='#contacto'
-								className='permalink'
-							>
-								Contacto
-							</a>
-						</li>
+					<div className='wrap-logo'>
+						<a
+							className='pointer'
+							onClick={this.handleHome}
+						>
+							<img src='./assets/solid2.png' alt='' className='img-responsive'/>
+						</a>
+					</div>
 
-						<li>
-							<button
-								className='btn btn-primary btn-xs badge-solid-container'
-								type='button'
-								onClick={(e) => {
+					<div className='wrap-menu'>
+						<ul className='list-inline custom-inline'>
+							<li>
+								<a
+									className='permalink'
+									onClick={(e) => {
+										Utils.handleLink(e, '/#nosotros');
+									}}
+								>
+									Nosotros
+								</a>
+							</li>
+							<li>
+								<a
+									className='permalink'
+									onClick={(e) => {
+										Utils.handleLink(e, '/#servicios');
+									}}
+								>
+									Servicios
+								</a>
+							</li>
+							<li>
+								<a
+									className='permalink'
+									onClick={(e) => {
+										Utils.handleLink(e, '/productos');
+									}}
+								>
+									Productos
+								</a>
+							</li>
+							<li>
+								<a
+									className='permalink'
+									onClick={(e) => {
+										Utils.handleLink(e, '/#marcas');
+									}}
+								>
+									Marcas
+								</a>
+							</li>
+							<li>
+								<a
+									className='permalink'
+									onClick={this.goToContact}
+								>
+									Contacto
+								</a>
+							</li>
+
+							<li>
+								<button
+									className='btn btn-primary btn-xs badge-solid-container'
+									type='button'
+									onClick={(e) => {
 									Utils.handleLink(e, '/cart');
 								}}
-							>
-								<i className='glyphicon glyphicon-shopping-cart'></i>
-								<span className='badge badge-solid'>{cartSize}</span>
-							</button>
-						</li>
+								>
+									<i className='glyphicon glyphicon-shopping-cart'></i>
+									<span className='badge badge-solid'>{cartSize}</span>
+								</button>
+							</li>
 
-						<li>
-							<div className='wrap-search'>
-								<input
-									type='search'
-									ref='search'
-									className='search_input'
-									onKeyUp={this.handleSearch}
-								/>
+							<li>
+								<div className='wrap-search'>
+									<input
+										type='search'
+										ref='search'
+										className='search_input'
+										onKeyUp={this.handleSearch}
+									/>
 
 								<span className='pull'>
 									<span className='glyphicon glyphicon-search zoom_search'></span>
 								</span>
-							</div>
-						</li>
-					</ul>
+								</div>
+							</li>
+						</ul>
+					</div>
 				</nav>
 			</div>
 		);

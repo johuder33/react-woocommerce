@@ -129,9 +129,20 @@
 }
 
 .nav-menu {
-  height: 102px;
-  display: table;
-  width: 100%;
+  position: relative;
+  padding: 20px 0px;
+
+  .wrap-logo {
+    float: left;
+    max-width: 200px;
+  }
+
+  .wrap-menu {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 }
 
 .wrap-search {
@@ -873,8 +884,7 @@ div.box-service {
   }
 
   .btn-form {
-    max-width: 85px;
-    width: 100%;
+    display: inline-block;
     height: 42px;
     color: #6b6b6b;
     -moz-transition: background-color 0.5s, color 0.4s;
@@ -1282,7 +1292,7 @@ label.custom-require {
   background: #17b6f1;
   position: relative;
 
-  > div {
+  > div, > a {
     text-align: center;
     color: #fff;
 
@@ -1293,12 +1303,13 @@ label.custom-require {
       cursor: pointer;
 
       &.half {
-        div {
+        div, a {
           width: 50%;
           padding: 10px 0;
           float: left;
+          color: #fff;
 
-          & + div {
+          & + div, & + a {
             background: #faa21b;
           }
         }
@@ -1327,7 +1338,7 @@ label.custom-require {
         overflow: hidden;
         margin-left: 170px;
 
-        > div {
+        > div, > a {
           width: 50%;
           float: left;
 
@@ -1343,6 +1354,7 @@ label.custom-require {
           &.download-file {
             background: #faa21b;
             padding: 10px 0;
+            color: #fff;
           }
         }
       }
@@ -1469,13 +1481,18 @@ label.custom-require {
 
   .btn-custom {
     background: #ffbb00;
-    border-raidus: 0 0 5px 5px;
+    border-radius: 0 0 5px 5px;
     padding: 15px 0;
     color: #fff;
     font-size: 18px;
     text-transform: uppercase;
     width: 100%;
     margin-top: 40px;
+
+    &[disabled] {
+      background: #ffbb00;
+      opacity: 0.6;
+    }
   }
 }
 
@@ -1526,6 +1543,15 @@ label.custom-require {
       }
     }
   }
+}
+
+.animacion-appear {
+  opacity: 0.01;
+}
+
+.animacion-appear.animacion-appear-active {
+  opacity: 1;
+  transition: opacity 1s;
 }
 
 /* NUEVOS */
