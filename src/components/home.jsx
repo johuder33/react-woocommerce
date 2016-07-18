@@ -11,23 +11,19 @@ export default class Home extends React.Component {
         super(props);
     }
 
-    componentDidMount() {
-        console.log('this.props',this.props.location);
-    }
-
-    componentWillReceiveProps(newProps) {
-        console.log(newProps);
-    }
-
     render() {
         return (
             <div>
                 <Banner/>
                 <div className='container'>
-                    <AboutUsSection/>
-                    <ServiceSection/>
+                    <AboutUsSection location={this.props.location}/>
+                    <ServiceSection location={this.props.location}/>
                 </div>
             </div>
         );
     }
 }
+
+Home.propTypes = {
+    location: React.PropTypes.object
+};

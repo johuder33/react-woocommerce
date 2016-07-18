@@ -18,7 +18,8 @@ const config = {
 				exclude: /(node_modules)/
 			}
 		]
-	}
+	},
+	devtool: false
 }
 
 module.exports = config;

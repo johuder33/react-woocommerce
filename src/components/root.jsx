@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 import {browserHistory} from 'react-router';
+import * as Client from '../utils/client.jsx';
 
 import Home from './home.jsx';
 import Menu from './menu.jsx';
@@ -18,6 +19,12 @@ export default class Root extends React.Component {
         };
     }
     componentDidMount() {
+        /*Client.custom((exito) => {
+            console.log('exito', exito);
+        }, (er) => {
+            console.log('error', er);
+        });*/
+
         if (this.props.location) {
             const hash = this.props.location.hash;
             Utils.scrollAnimated(hash);
@@ -33,7 +40,7 @@ export default class Root extends React.Component {
     render() {
         let home;
         if (this.props.children == null) {
-            home = <Home/>;
+            home = <Home location={this.props.location}/>;
         }
 
         return (

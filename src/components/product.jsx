@@ -2,15 +2,25 @@ import React from 'react';
 import {Carousel, Item, Caption} from 'react-bootstrap';
 import Controls from './controls.jsx';
 
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-
 export default class Product extends React.Component {
     constructor(props) {
         super(props);
+
+        this.handleCompare = this.handleCompare.bind(this);
+    }
+
+    handleCompare(e) {
+        e.preventDefault();
+        const {isComparing} = this.props;
+        const target = e.currentTarget;
+        if (this.props.onCompare && typeof this.props.onCompare === 'function' && isComparing && !this.props.isSingle) {
+            const {id, name} = this.props.product;
+            this.props.onCompare(target, {id, name});
+        }
     }
 
     render() {
-        const {images, name, price} = this.props.product;
+        const {images, all_images, name, price} = this.props.product;
         const {onAddCart} = this.props;
         const classCss = this.props.isSingle ? 'product-item-container product-item-container-single' : 'product-item-container';
 
@@ -18,11 +28,23 @@ export default class Product extends React.Component {
             controls: false,
             indicators: false
         };
-        let carouselImages = (
-            <Carousel.Item>
-                <img src={images[0].src} alt={images[0].alt} title={images[0].name} className='img-responsive center-block'/>
-            </Carousel.Item>
-        );
+
+        let carouselImages = null;
+
+        if (all_images) {
+            const image = all_images.shop_catalog || all_images.medium || all_images.shop_thumbnail || all_images.thumbnail;
+            carouselImages = (
+                <Carousel.Item>
+                    <img src={image.url} className='img-responsive center-block'/>
+                </Carousel.Item>
+            );
+        }else {
+            carouselImages = (
+                <Carousel.Item>
+                    <img src={images[0].src} alt={images[0].alt} title={images[0].name} className='img-responsive center-block'/>
+                </Carousel.Item>
+            );
+        }
 
         if (this.props.isSingle && images.length > 1) {
             attrs.controls = true;
@@ -37,7 +59,11 @@ export default class Product extends React.Component {
         }
 
         return(
-            <div className={classCss} style={this.props.styleCss}>
+            <div
+                className={classCss}
+                style={this.props.styleCss}
+                onClick={this.handleCompare}
+            >
                 <div>
                     <Carousel {...attrs}>
                         {carouselImages}
@@ -60,7 +86,9 @@ Product.propTypes = {
     isSingle: React.PropTypes.bool,
     label: React.PropTypes.string,
     onAddCart: React.PropTypes.func,
-    iterator: React.PropTypes.number
+    iterator: React.PropTypes.number,
+    onCompare: React.PropTypes.func,
+    isComparing: React.PropTypes.bool
 };
 
 Product.defaultProps = {

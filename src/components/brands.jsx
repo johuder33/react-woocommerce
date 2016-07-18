@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Client from '../utils/client.jsx';
-import Slider from 'nuka-carousel';
+import Slick from 'react-slick';
 
 export default class Brands extends React.Component {
     constructor(props) {
@@ -12,8 +12,11 @@ export default class Brands extends React.Component {
         };
 
         this.settings = {
+            infinite: true,
+            speed: 700,
             slidesToShow: 5,
-            dots: false
+            slidesToScroll: 1,
+            arrows: true
         };
     }
 
@@ -49,8 +52,8 @@ export default class Brands extends React.Component {
             slides = ids.map((id, index) => {
                 const slide = images[id];
                 return (
-                    <div>
-                        <img src={slide.full_url} alt={slide.alt || slide.caption} title={slide.title} />
+                    <div key={`brand-${index}`}>
+                        <img src={slide.url} alt={slide.alt || slide.caption} title={slide.title} className='img-responsive center-block'/>
                     </div>
                 );
             });
@@ -75,9 +78,9 @@ export default class Brands extends React.Component {
 
                         <div className='wrap-carousel'>
                             {slides && (
-                                <Slider {...this.settings}>
+                                <Slick {...this.settings}>
                                     {slides}
-                                </Slider>
+                                </Slick>
                             )}
                         </div>
                     </div>

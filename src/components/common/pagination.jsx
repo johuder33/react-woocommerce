@@ -45,7 +45,7 @@ export default class Pagination extends React.Component {
         const {page} = this.state;
         let items = null;
 
-        if (!totalPages) {
+        if (totalPages < 2 || !totalPages) {
             return <div/>;
         }
 

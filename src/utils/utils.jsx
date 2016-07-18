@@ -98,3 +98,25 @@ export function scrollAnimated(hash) {
         }, 900, 'swing');
     }
 }
+
+export function filterCategories(categories) {
+    if (categories) {
+        const categoriesFiltered = categories.filter((category) => {
+            return category.slug !== 'featured' && category.parent === 0;
+        });
+        
+        return categoriesFiltered;
+    }
+    
+    return null;
+}
+
+export function deleteCompare(array, toCompare) {
+    array.forEach((item, i) => {
+        const currentId = typeof item === 'object' ? item.id : item;
+        const id = typeof toCompare === 'object' ? toCompare.id : toCompare;
+        if (currentId === id) {
+            array.splice(i, 1);
+        }
+    });
+}

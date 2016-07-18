@@ -103,11 +103,15 @@ export default class Footer extends React.Component {
 
 		const social_keys = Object.keys(contact.socials);
 
-		const iconsSocials = social_keys.map((key) => {
+		const iconsSocials = social_keys.map((key, index) => {
 			const url = contact.socials[key];
 			if(url && url.length > 0) {
 				return (
-					<a href={url} target='_blank' className='btn-circle'>
+					<a
+						href={url} target='_blank'
+						className='btn-circle'
+						key={`sn-${index}`}
+					>
 						<i className={`fa fa-${key}`}></i>
 					</a>
 				);
@@ -136,7 +140,7 @@ export default class Footer extends React.Component {
 									<div className='sociales'>
 										{iconsSocials}
 									</div>
-									<address className='address-info'>{contact.post_content}</address>
+									<address className='address-info' dangerouslySetInnerHTML={{__html: contact.post_content}}></address>
 								</section>
 							</div>
 

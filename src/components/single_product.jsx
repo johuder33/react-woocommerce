@@ -18,7 +18,6 @@ export default class SingleProduct extends React.Component {
         const id = this.props.params.id;
 
         Client.getProductById(`/products/${id}`, (product) => {
-            console.log(product);
             this.setState({
                 product
             });

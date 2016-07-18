@@ -1,6 +1,7 @@
 import React from 'react';
 
 import * as Client from '../utils/client.jsx';
+import * as Utils from '../utils/utils.jsx';
 
 export default class ServiceSection extends React.Component {
 	constructor(props) {
@@ -11,6 +12,13 @@ export default class ServiceSection extends React.Component {
 			service_content: null,
 			error: null
 		};
+	}
+
+	componentDidUpdate() {
+		if (this.props.location.hash === '#servicios') {
+			const hash = this.props.location.hash;
+			Utils.scrollAnimated(hash);
+		}
 	}
 
 	componentDidMount() {
@@ -87,3 +95,7 @@ export default class ServiceSection extends React.Component {
 		);
 	}
 }
+
+ServiceSection.propTypes = {
+	location: React.PropTypes.object
+};

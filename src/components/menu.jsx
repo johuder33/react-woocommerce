@@ -85,7 +85,7 @@ export default class Menu extends React.Component {
 						<ul className='list-inline custom-inline'>
 							<li>
 								<a
-									className='permalink'
+									className='permalink pointer'
 									onClick={(e) => {
 										Utils.handleLink(e, '/#nosotros');
 									}}
@@ -95,7 +95,7 @@ export default class Menu extends React.Component {
 							</li>
 							<li>
 								<a
-									className='permalink'
+									className='permalink pointer'
 									onClick={(e) => {
 										Utils.handleLink(e, '/#servicios');
 									}}
@@ -105,7 +105,7 @@ export default class Menu extends React.Component {
 							</li>
 							<li>
 								<a
-									className='permalink'
+									className='permalink pointer'
 									onClick={(e) => {
 										Utils.handleLink(e, '/productos');
 									}}
@@ -115,7 +115,7 @@ export default class Menu extends React.Component {
 							</li>
 							<li>
 								<a
-									className='permalink'
+									className='permalink pointer'
 									onClick={(e) => {
 										Utils.handleLink(e, '/#marcas');
 									}}
@@ -125,7 +125,7 @@ export default class Menu extends React.Component {
 							</li>
 							<li>
 								<a
-									className='permalink'
+									className='permalink pointer'
 									onClick={this.goToContact}
 								>
 									Contacto

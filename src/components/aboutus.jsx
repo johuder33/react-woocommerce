@@ -1,5 +1,6 @@
 import React from 'react';
 import * as Client from '../utils/client.jsx';
+import * as Utils from '../utils/utils.jsx';
 
 export default class NosotrosSection extends React.Component {
 	constructor(props) {
@@ -7,7 +8,6 @@ export default class NosotrosSection extends React.Component {
 
 		this.state = {
 			post: null,
-			featured_image: null,
 			error: null
 		};
 	}
@@ -15,23 +15,7 @@ export default class NosotrosSection extends React.Component {
 	componentDidMount() {
 		Client.getDataFromServer('/nosotros', (data) => {
 			const post = typeof data === 'object' ? data.shift() : data;
-
-			if (post) {
-				const media_id = post.featured_media;
-				return Client.getDataFromServer(`/media/${media_id}`, (media) => {
-					const featured_media = media;
-					return this.setState({
-						post,
-					 	featured_media
-					});
-				}, () =>{
-					return this.setState({
-						post
-					});
-				});
-			}
-
-			return this.setState({
+			this.setState({
 				post
 			});
 		}, (error) => {
@@ -40,29 +24,38 @@ export default class NosotrosSection extends React.Component {
 			});
 		});
 	}
+	
+	componentDidUpdate() {
+		if (this.props.location.hash === '#nosotros') {
+			const hash = this.props.location.hash;
+			Utils.scrollAnimated(hash);
+		}
+	}
 
 	render() {
 		const {post} = this.state;
-		const {featured_media} = this.state;
+		const all_images = post ? post.all_images : false;
 
-		if (!post && !featured_media) {
+		if (!post) {
 			return (
 				<div/>
 			);
 		}
 
-		const {sizes} = featured_media.media_details;
+		const image = all_images ? all_images.full : all_images;
 
 		return (
 			<section className='nosotros_block' id='nosotros-section'>
 				<div className='row flex'>
-					<div className='col-xs-12 col-sm-12 col-md-6 col-lg-6 picture'>
-						<figure>
-							<img src={sizes.full.source_url} alt={featured_media.alt_text} title={featured_media.title.rendered} className='img-responsive center-block' />
-						</figure>
-					</div>
+					{image && (
+						<div className='col-xs-12 col-sm-12 col-md-6 col-lg-6 picture'>
+							<figure>
+								<img src={image.url} className='img-responsive center-block' />
+							</figure>
+						</div>
+					)}
 
-					<div className='col-xs-12 col-sm-12 <?php echo $class; ?> info_company'>
+					<div className='col-xs-12 col-sm-12 info_company'>
 						<div>
 							<h3 className='title_company'>{post.title.rendered}</h3>
 							<h3 className='title_company'>{post.type}</h3>
@@ -76,3 +69,7 @@ export default class NosotrosSection extends React.Component {
 		);
 	}
 }
+
+NosotrosSection.propTypes = {
+	location: React.PropTypes.object
+};
